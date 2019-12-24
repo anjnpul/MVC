@@ -14,8 +14,9 @@ namespace MVC_SQLITE.Models
         public DateTime DATE { get; set; }
         public string PROJ { get; set; }
         public string ACC { get; set; }
+        public string ATYPE { get; set; }
         public string PARTY { get; set; }
-        public string TYPE { get; set; }
+        public string PTYPE { get; set; }
         public decimal AMT { get; set; }
         public string   REM { get; set; }
     }
