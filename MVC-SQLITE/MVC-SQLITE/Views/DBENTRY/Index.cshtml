@@ -5,7 +5,7 @@
 }
 
 
-    
+
 
 <h2>Index</h2>
 <div class="container">
@@ -14,13 +14,12 @@
             <div class="panel panel-primary" id="menu">
                 <div class="panel-body">
                     <table class="table table-bordered table-hover">
-                        <tr><td><input type="button" class="btn btn-primary" id="lblPMT" value="PAYMENTS"/></td></tr>
-                        <tr><td><input type="button" class="btn btn-primary" id="lblPMT1" value="PAYMENTS"/></td></tr>
+                        <tr><td><input type="button" class="btn btn-primary" id="lblPMT" value="PAYMENTS" /></td></tr>
+                        <tr><td><input type="button" class="btn btn-primary" id="lblPMT1" value="PAYMENTS" /></td></tr>
                         <tr><td><input type="button" class="btn btn-primary" id="lblPMT2" value="PAYMENTS" /></td></tr>
                     </table>
                 </div>
             </div>
-            <div id="tree"></div>
         </div>
         <div class="col-sm-9">
             <div class="panel panel-danger ab" id="ADD_PMT" hidden>
@@ -60,7 +59,7 @@
                 </div>
             </div>
             <div class="panel panel-success ab" id="EDT_PMT" hidden>
-                <div class="panel-heading">PAYMENT ENTRY</div>
+                <div class="panel-heading">ADJUSTMENTS</div>
                 <div class="panel-body">
                     <table class="table table-bordered table-hover">
                         <tr>
@@ -94,64 +93,76 @@
                         <tr><td colspan="4"><input type="button" class="btn btn-success" id="btnPMT1" value="Save" /><input type="button" class="btn btn-success" id="btnCAN1" value="Cancel" /></td></tr>
                     </table>
                 </div>
+
+            </div>
+            <div class="panel panel-warning ab" id="DAY-REP" hidden>
+                <div class="panel-heading">DAILY REPORT</div>
+                <div class="panel-body">
+                    <table id="jqGrid"></table>
+                    <div id="jqGridPager"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<li><a href="@Url.Action("Create", "DBENTRY")">Create</a></li>
+
+<link href="~/Content/Theme/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/ui.jqgrid.css" rel="stylesheet" />
 
 
-<script>
-    $(document).ready(function () {
-        var mytree = [
-  {
-    text: "VOUCHER ENTRY",
-    nodes: [
-      {
-        text: "PAYMENTS",
-      },
-      {
-        text: "ADJUSTMENTS"
-        },
-        {
-            text: "RECEIPTS"
-        }
-    ]
-  },
-  {
-    text: "REPORTS",
-    nodes: [
-      {
-        text: "DAY BOOK",
-      },
-      {
-        text: "LEDGER"
-        }
-    ]
-  }
-];
-        $('#tree').treeview({data: mytree});
-        $("#lblPMT").click(function () {
-            $('.ab').hide();
-            $("#ADD_PMT").show();
-            $("#menu :input").prop("disabled", true);
+@section scripts{
+    <script src="~/Scripts/jqGrid/grid.locale-en.js"></script>
+    <script src="~/Scripts/jqGrid/jquery.jqGrid.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $grid = $("#jqGrid").jqGrid({
+                    url: '@Url.Action("getData", "DBENTRY")',
+                    mtype : 'GET',
+                    datatype: 'json',
+                    colModel: [
+                        { label: 'ID', name:'ID'},
+                        { label: 'USERN', name: 'USERN' },
+                        { label: 'PASS', name: 'PASS' },
+                        { label: 'FNAME', name: 'FNAME' },
+                        {label: 'LNAME', name:'LNAME'}
+                    ],
+                    loadonce: true,
+                    pager: '#jqGridPager',
+                    viewrecords: true
+                });
+                $("#jqGrid").jqGrid('navGrid', '#jqGridPager', {edit:false, add:false, del:false});
+            });
+            $("#lblPMT").click(function () {
+                $('.ab').hide();
+                $("#ADD_PMT").show();
+                $("#menu :input").prop("disabled", true);
+            });
+            $("#lblPMT1").click(function () {
+                $('.ab').hide();
+                $("#EDT_PMT").show();
+                $("#menu :input").prop("disabled", true);
+            });
+            $("#lblPMT2").click(function () {
+                $('.ab').hide();
+                $("#DAY-REP").show();
+            });
+            $("#btnCAN").click(function () {
+                $('.ab').hide();
+                $("#menu :input").prop("disabled", false);
+                $('.ab').find('input:text').val('');
+            });
+            $("#btnCAN1").click(function () {
+                $('.ab').hide();
+                $("#menu :input").prop("disabled", false);
+                $('.ab').find('input:text').val('');
+            });
         });
-        $("#lblPMT1").click(function () {
-            $('.ab').hide();
-            $("#EDT_PMT").show();
-        });
-        $("#btnCAN").click(function () {
-            $('.ab').hide();
-            $("#menu :input").prop("disabled", false);
-            $('.ab').find('input:text').val('');
-        });
-        $("#btnCAN1").click(function () {
-            $('.ab').hide();
-            $("#menu :input").prop("disabled", false);
-            $('.ab').find('input:text').val('');
-        });
-    });
-</script>
+    </script>
+}
+
 
 
 
