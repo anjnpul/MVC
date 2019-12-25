@@ -11,23 +11,24 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-3">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="menu">
                 <div class="panel-body">
                     <table class="table table-bordered table-hover">
                         <tr><td><input type="button" class="btn btn-primary" id="lblPMT" value="PAYMENTS"/></td></tr>
-                        <tr><td>ADJUSTMENTS</td></tr>
-                        <tr><td>REPORTSS</td></tr>
+                        <tr><td><input type="button" class="btn btn-primary" id="lblPMT1" value="PAYMENTS"/></td></tr>
+                        <tr><td><input type="button" class="btn btn-primary" id="lblPMT2" value="PAYMENTS" /></td></tr>
                     </table>
                 </div>
             </div>
+            <div id="tree"></div>
         </div>
         <div class="col-sm-9">
-            <div class="panel panel-danger" id="ADD_PMT" hidden>
+            <div class="panel panel-danger ab" id="ADD_PMT" hidden>
                 <div class="panel-heading">PAYMENT ENTRY</div>
                 <div class="panel-body">
                     <table class="table table-bordered table-hover">
                         <tr>
-                            <td> <label for="txtREF">REF. NO:</label></td>
+                            <td>REF. NO:</td>
                             <td><input type="text" class="form-control" id="txtREF" /></td>
                             <td>DATE:</td>
                             <td><input type="date" class="form-control" id="txtDT" /></td>
@@ -54,7 +55,43 @@
                             <td>REMARKS:</td>
                             <td><input type="text" class="form-control" id="txtREM" /></td>
                         </tr>
-                        <tr><td colspan="4"><input type="button" class="btn btn-success" id="btnPMT" value="Save" /></td></tr>
+                        <tr><td colspan="4"><input type="button" class="btn btn-success" id="btnPMT" value="Save" /><input type="button" class="btn btn-success" id="btnCAN" value="Cancel" /></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-success ab" id="EDT_PMT" hidden>
+                <div class="panel-heading">PAYMENT ENTRY</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <td>REF. NO:</td>
+                            <td><input type="text" class="form-control" id="txtREF1" /></td>
+                            <td>DATE:</td>
+                            <td><input type="date" class="form-control" id="txtDT1" /></td>
+                        </tr>
+                        <tr>
+                            <td>PROJECT NAME:</td>
+                            <td colspan="3"><input type="text" class="form-control" id="txtPROJ1" /></td>
+                        </tr>
+                        <tr>
+                            <td>ACCOUNT:</td>
+                            <td><input type="text" class="form-control" id="txtACC1" /></td>
+                            <td>ACCOUNT TYPE:</td>
+                            <td><input type="text" class="form-control" id="txtACCTP1" /></td>
+                        </tr>
+                        <tr>
+                            <td>PAID TO / FOR:</td>
+                            <td><input type="text" class="form-control" id="txtPARTY1" /></td>
+                            <td>PAYMENT TYPE:</td>
+                            <td><input type="text" class="form-control" id="txtPTYPE1" /></td>
+                        </tr>
+                        <tr>
+                            <td>AMOUNT:</td>
+                            <td><input type="number" step="any" class="form-control" id="txtAMT1" /></td>
+                            <td>REMARKS:</td>
+                            <td><input type="text" class="form-control" id="txtREM1" /></td>
+                        </tr>
+                        <tr><td colspan="4"><input type="button" class="btn btn-success" id="btnPMT1" value="Save" /><input type="button" class="btn btn-success" id="btnCAN1" value="Cancel" /></td></tr>
                     </table>
                 </div>
             </div>
@@ -66,8 +103,52 @@
 
 <script>
     $(document).ready(function () {
+        var mytree = [
+  {
+    text: "VOUCHER ENTRY",
+    nodes: [
+      {
+        text: "PAYMENTS",
+      },
+      {
+        text: "ADJUSTMENTS"
+        },
+        {
+            text: "RECEIPTS"
+        }
+    ]
+  },
+  {
+    text: "REPORTS",
+    nodes: [
+      {
+        text: "DAY BOOK",
+      },
+      {
+        text: "LEDGER"
+        }
+    ]
+  }
+];
+        $('#tree').treeview({data: mytree});
         $("#lblPMT").click(function () {
+            $('.ab').hide();
             $("#ADD_PMT").show();
+            $("#menu :input").prop("disabled", true);
+        });
+        $("#lblPMT1").click(function () {
+            $('.ab').hide();
+            $("#EDT_PMT").show();
+        });
+        $("#btnCAN").click(function () {
+            $('.ab').hide();
+            $("#menu :input").prop("disabled", false);
+            $('.ab').find('input:text').val('');
+        });
+        $("#btnCAN1").click(function () {
+            $('.ab').hide();
+            $("#menu :input").prop("disabled", false);
+            $('.ab').find('input:text').val('');
         });
     });
 </script>
